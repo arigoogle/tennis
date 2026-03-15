@@ -1,506 +1,531 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alcaraz Training Plan</title>
 <style>
   :root {
-    --gap: 12px;
-    --border-radius-md: 10px;
-    --border-radius-lg: 14px;
+    --gap: 16px;
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 20px;
+    --border-radius-pill: 999px;
 
-    /* Light theme */
-    --color-background-primary: #ffffff;
-    --color-background-secondary: #f7f7f7;
-    --color-background-tertiary: #e5e7eb;
-    --color-text-primary: #0f172a;
-    --color-text-secondary: #475569;
-    --color-text-tertiary: #94a3b8;
-    --color-border-primary: rgba(148, 163, 184, 0.5);
-    --color-border-tertiary: rgba(148, 163, 184, 0.3);
-    --shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+    /* Light theme (Clean & Vibrant) */
+    --bg-app: #f4f4f5;
+    --bg-card: #ffffff;
+    --bg-element: #f1f5f9;
+    --bg-element-hover: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --text-faint: #94a3b8;
+    --border-light: rgba(15, 23, 42, 0.08);
+    --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 4px 6px -4px rgba(15, 23, 42, 0.02);
+    
+    /* Accent Colors */
+    --accent-primary: #0ea5e9;
+    --accent-tennis: #10b981;
+    --accent-gym: #6366f1;
   }
 
   :root.dark,
   :root[data-theme="dark"] {
-    --color-background-primary: #070b14;
-    --color-background-secondary: #0f172a;
-    --color-background-tertiary: #1e293b;
-    --color-text-primary: #e2e8f0;
-    --color-text-secondary: #94a3b8;
-    --color-text-tertiary: #64748b;
-    --color-border-primary: rgba(148, 163, 184, 0.3);
-    --color-border-tertiary: rgba(148, 163, 184, 0.2);
-    --shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    /* Dark theme (Sleek & Deep) */
+    --bg-app: #09090b;
+    --bg-card: #18181b;
+    --bg-element: #27272a;
+    --bg-element-hover: #3f3f46;
+    --text-main: #f8fafc;
+    --text-muted: #a1a1aa;
+    --text-faint: #52525b;
+    --border-light: rgba(255, 255, 255, 0.08);
+    --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
   }
 
-  html,
-  body {
+  * { box-sizing: border-box; }
+
+  html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: var(--color-background-primary);
-    color: var(--color-text-primary);
-  }
-
-  body {
     min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-app);
+    color: var(--text-main);
+    transition: background-color 0.3s ease;
   }
 
   .wrap {
-    padding: 1rem 0;
-    max-width: 720px;
+    max-width: 600px;
     margin: 0 auto;
-    padding: 1.5rem 1.25rem 2.5rem;
+    padding: 2rem 1.25rem;
   }
 
+  /* Header Styles */
   .header {
-    margin-bottom: 1.5rem;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
   }
 
-  .header h2 {
-    font-size: 18px;
-    font-weight: 500;
-    margin: 0 0 4px;
-    color: var(--color-text-primary);
+  .header-text h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
   }
 
-  .header p {
-    font-size: 13px;
-    color: var(--color-text-secondary);
+  .header-text p {
+    font-size: 14px;
+    color: var(--text-muted);
     margin: 0;
+    line-height: 1.4;
   }
 
   .theme-toggle {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    border: 1px solid var(--color-border-tertiary);
-    background: var(--color-background-secondary);
-    color: var(--color-text-primary);
+    width: 44px;
+    height: 44px;
+    border-radius: var(--border-radius-pill);
+    border: 1px solid var(--border-light);
+    background: var(--bg-card);
+    color: var(--text-main);
     cursor: pointer;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    font-size: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease, background 0.2s ease;
   }
 
   .theme-toggle:hover {
-    background: var(--color-background-tertiary);
+    transform: scale(1.05);
+    background: var(--bg-element);
   }
 
-  .theme-toggle:focus {
-    outline: 2px solid rgba(59, 130, 246, 0.6);
-    outline-offset: 2px;
-  }
-
-  .tabs {
+  /* Segmented Control Tabs */
+  .tabs-container {
+    background: var(--bg-element);
+    padding: 4px;
+    border-radius: var(--border-radius-md);
     display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 1.25rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    scrollbar-width: none; /* Firefox */
   }
+  
+  .tabs-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 
   .tab {
-    padding: 6px 14px;
-    border-radius: var(--border-radius-md);
-    border: 0.5px solid var(--color-border-tertiary);
+    flex: 1;
+    min-width: max-content;
+    padding: 8px 16px;
+    border-radius: var(--border-radius-sm);
+    border: none;
     font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
     background: transparent;
-    color: var(--color-text-secondary);
-    transition: all 0.15s;
+    color: var(--text-muted);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .tab.active {
-    background: var(--color-background-secondary);
-    border-color: var(--color-border-primary);
-    color: var(--color-text-primary);
-    font-weight: 500;
+    background: var(--bg-card);
+    color: var(--text-main);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06), 0 0 0 1px var(--border-light);
   }
 
+  /* Card Styles */
   .card {
-    background: var(--color-background-primary);
-    border: 0.5px solid var(--color-border-tertiary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
     border-radius: var(--border-radius-lg);
-    padding: 1rem 1.25rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-card);
     display: none;
-    box-shadow: var(--shadow);
   }
 
   .card.visible {
     display: block;
+    animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
   }
 
   .day-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
-
-  .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: var(--border-radius-md);
+    background: var(--text-main);
+    color: var(--bg-card);
+    padding: 4px 12px;
+    border-radius: var(--border-radius-pill);
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
-  .badge-teal {
-    background: #E1F5EE;
-    color: #085041;
-  }
-
-  .badge-coral {
-    background: #FAECE7;
-    color: #712B13;
-  }
-
-  .badge-amber {
-    background: #FAEEDA;
-    color: #633806;
-  }
-
-  .badge-purple {
-    background: #EEEDFE;
-    color: #3C3489;
-  }
-
-  .badge-blue {
-    background: #E6F1FB;
-    color: #0C447C;
-  }
-
-  .badge-gray {
-    background: #F1EFE8;
-    color: #444441;
-  }
-
-  .badge-green {
-    background: #EAF3DE;
-    color: #27500A;
-  }
-
-  .day-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--color-text-primary);
-    margin: 0 0 4px;
-  }
-
-  .day-sub {
-    font-size: 13px;
-    color: var(--color-text-secondary);
-    margin: 0 0 1rem;
+  .day-focus {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
   }
 
   .section-label {
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-tertiary);
-    margin: 1rem 0 6px;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    margin: 1.5rem 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-light);
   }
 
   .drill-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
   .drill-item {
     display: flex;
-    gap: 10px;
+    gap: 14px;
     align-items: flex-start;
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--color-text-primary);
-    background: var(--color-background-secondary);
-    border-radius: var(--border-radius-md);
-    padding: 8px 10px;
-  }
-
-  .drill-icon {
-    width: 18px;
-    height: 18px;
-    min-width: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 500;
-    margin-top: 1px;
-  }
-
-  .drill-icon.gym {
-    background: #EEEDFE;
-    color: #3C3489;
-  }
-
-  .drill-icon.tennis {
-    background: #E1F5EE;
-    color: #085041;
-  }
-
-  .drill-icon.alc {
-    background: #FAEEDA;
-    color: #633806;
-  }
-
-  .tip {
-    margin-top: 1rem;
-    padding: 8px 12px;
-    border-left: 2px solid #1D9E75;
-    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
-    background: #E1F5EE;
-    font-size: 12px;
-    color: #085041;
+    font-size: 14px;
     line-height: 1.6;
   }
 
-  .divider {
-    height: 0.5px;
-    background: var(--color-border-tertiary);
-    margin: 12px 0;
+  .drill-icon {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    background: var(--bg-element);
+  }
+
+  /* Specific icon backgrounds */
+  .drill-icon.gym { background: rgba(99, 102, 241, 0.15); color: #6366f1; }
+  .drill-icon.tennis { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+  .drill-icon.alc { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+
+  /* Intensity Bars */
+  .metrics-box {
+    background: var(--bg-element);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    margin-top: 1.5rem;
   }
 
   .intensity-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 12px;
   }
+  
+  .intensity-row:not(:last-child) { margin-bottom: 12px; }
 
   .intensity-label {
     font-size: 12px;
-    color: var(--color-text-secondary);
-    min-width: 60px;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 80px;
   }
 
   .bar-wrap {
     flex: 1;
-    height: 5px;
-    background: var(--color-background-tertiary);
-    border-radius: 3px;
+    height: 8px;
+    background: var(--bg-app);
+    border-radius: var(--border-radius-pill);
     overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
   }
 
   .bar-fill {
     height: 100%;
-    border-radius: 3px;
+    border-radius: var(--border-radius-pill);
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
   }
-</style>
 
-<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+  /* Tips Section */
+  .tip-box {
+    margin-top: 1.5rem;
+    padding: 16px;
+    border-radius: var(--border-radius-md);
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .tip-box p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-main);
+  }
+
+</style>
+</head>
+<body>
 
 <div class="wrap">
   <div class="header">
-    <h2>Weekly training plan — Alcaraz style</h2>
-    <p>Disesuaikan dengan profil fisikmu · Tennis 1 bulan · Background badminton</p>
+    <div class="header-text">
+      <h2>Alcaraz Protocol</h2>
+      <p>Tennis 1 bulan · Background badminton</p>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
   </div>
-  <div class="tabs" id="tabs"></div>
+  
+  <div class="tabs-container" id="tabs"></div>
   <div id="cards"></div>
 </div>
 
 <script>
+// Theme Logic
 const themeToggle = document.getElementById('theme-toggle');
 
 function getPreferredTheme() {
   const stored = localStorage.getItem('theme');
-  if (stored === 'dark' || stored === 'light') return stored;
+  if (stored) return stored;
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 function applyTheme(theme) {
   document.documentElement.classList.toggle('dark', theme === 'dark');
   themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-  themeToggle.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
-}
-
-function setTheme(theme) {
-  localStorage.setItem('theme', theme);
-  applyTheme(theme);
 }
 
 themeToggle.addEventListener('click', () => {
-  const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
-  setTheme(next);
+  const nextTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+  localStorage.setItem('theme', nextTheme);
+  applyTheme(nextTheme);
 });
 
-const initialTheme = getPreferredTheme();
-applyTheme(initialTheme);
+applyTheme(getPreferredTheme());
 
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
-  if (!localStorage.getItem('theme')) {
-    applyTheme(event.matches ? 'dark' : 'light');
-  }
-});
-
+// Data Processing
 const days = [
   {
-    day: "Senin", focus: "Lower Body Power", badge: "badge-teal", emoji: "⚡",
+    day: "Senin", focus: "Lower Body Power", emoji: "⚡",
     gym: [
-      { text: "Explosive squat jump 4x8 — fokus dorong dari tumit, pendaratan soft (transferable ke first-step tennis)", icon: "gym" },
-      { text: "Bulgarian split squat 3x10/side — latih split-step landing ala Alcaraz saat bergerak lateral", icon: "gym" },
-      { text: "Lateral band walk + mini hurdle — aktivasi glutes untuk sliding footwork", icon: "gym" },
-      { text: "Nordic curl 3x6 — proteksi hamstring kritis untuk pemain yang sering sprint", icon: "gym" },
+      { text: "Explosive squat jump 4x8 — fokus dorong dari tumit, pendaratan soft (transferable ke first-step tennis)", type: "gym" },
+      { text: "Bulgarian split squat 3x10/side — latih split-step landing ala Alcaraz saat bergerak lateral", type: "gym" },
+      { text: "Lateral band walk + mini hurdle — aktivasi glutes untuk sliding footwork", type: "gym" },
+      { text: "Nordic curl 3x6 — proteksi hamstring kritis untuk pemain yang sering sprint", type: "gym" }
     ],
     tennis: [
-      { text: "Cross-court consistency drill — 50 rally tanpa error, alternating FH-BH (baseline to baseline)", icon: "tennis" },
-      { text: "Alcaraz deep ball placement — target zone 1m dari baseline, vary pace heavy/light", icon: "alc" },
-      { text: "Running forehand 'venom' — partner feed wide, kamu sprint dan hit inside-out FH saat berlari", icon: "alc" },
-      { text: "Cool down: 5 min shadow footwork — split step timing tanpa bola", icon: "tennis" },
+      { text: "Cross-court consistency drill — 50 rally tanpa error, alternating FH-BH (baseline to baseline)", type: "tennis" },
+      { text: "Alcaraz deep ball placement — target zone 1m dari baseline, vary pace heavy/light", type: "alc" },
+      { text: "Running forehand 'venom' — partner feed wide, kamu sprint dan hit inside-out FH saat berlari", type: "alc" },
+      { text: "Cool down: 5 min shadow footwork — split step timing tanpa bola", type: "tennis" }
     ],
     tip: "Alcaraz menggunakan split step SETIAP pukulan lawan. Latih timing-nya: split step tepat saat lawan kontak bola, bukan setelahnya.",
     gym_intensity: 80, tennis_intensity: 65
   },
   {
-    day: "Selasa", focus: "Core & Rotational Power", badge: "badge-coral", emoji: "🔄",
+    day: "Selasa", focus: "Core & Rotation", emoji: "🔄",
     gym: [
-      { text: "Med ball rotational throw 4x8/side — ini adalah sumber 'venom' dari FH Alcaraz. Eksplosi pinggul dulu, bahu ikut.", icon: "gym" },
-      { text: "Cable/band wood-chop diagonal 3x12 — simulasi swing plane forehand dan backhand", icon: "gym" },
-      { text: "Plank with hip dip 3x15/side — stabilitas core saat berlari dan memukul", icon: "gym" },
-      { text: "Dead bug 3x10 — anti-rotation core, penting untuk ground stroke stabil", icon: "gym" },
+      { text: "Med ball rotational throw 4x8/side — ini adalah sumber 'venom' dari FH Alcaraz. Eksplosi pinggul dulu, bahu ikut.", type: "gym" },
+      { text: "Cable/band wood-chop diagonal 3x12 — simulasi swing plane forehand dan backhand", type: "gym" },
+      { text: "Plank with hip dip 3x15/side — stabilitas core saat berlari dan memukul", type: "gym" },
+      { text: "Dead bug 3x10 — anti-rotation core, penting untuk ground stroke stabil", type: "gym" }
     ],
     tennis: [
-      { text: "Forehand heavy topspin feed — from basket, 60 bola, fokus brushing up on contact zone, bukan power", icon: "tennis" },
-      { text: "On-the-run forehand drill — coach/partner feed alternating left-right wide, kamu recover center setiap pukulan", icon: "alc" },
-      { text: "Sliding work (jika ada hard court, fokus controlled push-out) — Alcaraz slide di hard court, bukan hanya clay", icon: "alc" },
-      { text: "Bonus: drop shot touch practice 10 min — forehand drop shot dari mid-court, net clearance minimal", icon: "alc" },
+      { text: "Forehand heavy topspin feed — from basket, 60 bola, fokus brushing up on contact zone, bukan power", type: "tennis" },
+      { text: "On-the-run forehand drill — coach/partner feed alternating left-right wide, kamu recover center setiap pukulan", type: "alc" },
+      { text: "Sliding work — Alcaraz slide di hard court, bukan hanya clay (fokus controlled push-out)", type: "alc" },
+      { text: "Bonus: drop shot touch practice 10 min — forehand drop shot dari mid-court", type: "alc" }
     ],
-    tip: "Kunci 'venom' Alcaraz: hip rotation mendahului bahu 10-15 ms. Rasakan urutan: kaki → pinggul → bahu → raket. Latih slow motion dulu.",
+    tip: "Kunci 'venom' Alcaraz: hip rotation mendahului bahu 10-15 ms. Rasakan urutan: kaki → pinggul → bahu → raket.",
     gym_intensity: 75, tennis_intensity: 70
   },
   {
-    day: "Rabu", focus: "Reaction & Match Play", badge: "badge-blue", emoji: "🎾",
+    day: "Rabu", focus: "Reaction & Match", emoji: "🎾",
     gym: [
-      { text: "Ball-drop reaction drill 3x10 — partner drop bola dari pinggang, kamu sprint dan tangkap sebelum bounce ke-2", icon: "gym" },
-      { text: "Cone T-drill 4x — agility benchmark, ukur waktu tiap minggu", icon: "gym" },
-      { text: "Juggling 10 min — fine motor + hand-eye coordination (Alcaraz practice ini sejak kecil)", icon: "gym" },
+      { text: "Ball-drop reaction drill 3x10 — partner drop bola dari pinggang, kamu sprint dan tangkap sebelum bounce ke-2", type: "gym" },
+      { text: "Cone T-drill 4x — agility benchmark, ukur waktu tiap minggu", type: "gym" },
+      { text: "Juggling 10 min — fine motor + hand-eye coordination (Alcaraz practice ini sejak kecil)", type: "gym" }
     ],
     tennis: [
-      { text: "Match play 2-3 set — main dengan target strategi, bukan hanya menang: coba minimal 3 drop shot per set", icon: "tennis" },
-      { text: "Alcaraz signature pattern: Rally → short ball → approach → drop shot or winner. Drill pola ini sadar-sadar.", icon: "alc" },
-      { text: "Between points: deliberate reset ritual (bounce bola, breath). Alcaraz selalu punya rhythm antara poin.", icon: "alc" },
+      { text: "Match play 2-3 set — main dengan target strategi, bukan hanya menang: coba minimal 3 drop shot per set", type: "tennis" },
+      { text: "Alcaraz signature pattern: Rally → short ball → approach → drop shot or winner.", type: "alc" },
+      { text: "Between points: deliberate reset ritual (bounce bola, breath).", type: "alc" }
     ],
-    tip: "Hari ini adalah 'match intelligence day'. Fokus taktik: kapan aggress, kapan sabar. Catat berapa unforced error vs forced error setelah main.",
+    tip: "Hari ini adalah 'match intelligence day'. Fokus taktik: kapan aggress, kapan sabar. Catat unforced error vs forced error.",
     gym_intensity: 50, tennis_intensity: 90
   },
   {
-    day: "Kamis", focus: "Upper Body & Serve", badge: "badge-purple", emoji: "🏋️",
+    day: "Kamis", focus: "Upper Body & Serve", emoji: "🏋️",
     gym: [
-      { text: "Resistance band internal/external rotation 3x15 — 'shoulder prehab' wajib untuk pemain yang serve keras", icon: "gym" },
-      { text: "Pull-up 3x max atau lat pulldown 3x10 — lat engagement penting untuk serve power dan FH finish", icon: "gym" },
-      { text: "Push-up + serratus punch 3x12 — scapular stability untuk control raket saat volley dan overhead", icon: "gym" },
-      { text: "Wrist flexion/extension dengan dumbbell ringan 2x20 — proteksi wrist dari topspin volume tinggi", icon: "gym" },
+      { text: "Resistance band internal/external rotation 3x15 — 'shoulder prehab' wajib untuk pemain yang serve keras", type: "gym" },
+      { text: "Pull-up 3x max atau lat pulldown 3x10 — lat engagement penting untuk serve power", type: "gym" },
+      { text: "Push-up + serratus punch 3x12 — scapular stability untuk control raket saat volley", type: "gym" },
+      { text: "Wrist flexion/extension dengan dumbbell ringan 2x20", type: "gym" }
     ],
     tennis: [
-      { text: "Serve placement drill: T-serve, body serve, wide serve — 20 bola per zone. Alcaraz memiliki all-3-zones command.", icon: "alc" },
-      { text: "First serve + serve+1 combo: setelah serve, langsung anticipate response dan hit approach atau FH winner", icon: "alc" },
-      { text: "Volley reaction drill — coach feed rapid volleys dari 3m jarak, fokus compact swing bukan full swing", icon: "tennis" },
-      { text: "Overhead smash 20x — Alcaraz punya overhead yang mematikan. Fokus shoulder rotation dan contact point tinggi", icon: "tennis" },
+      { text: "Serve placement drill: T-serve, body serve, wide serve — 20 bola per zone.", type: "alc" },
+      { text: "First serve + serve+1 combo: setelah serve, langsung hit approach atau FH winner", type: "alc" },
+      { text: "Volley reaction drill — coach feed rapid volleys dari 3m jarak", type: "tennis" },
+      { text: "Overhead smash 20x — Fokus shoulder rotation dan contact point tinggi", type: "tennis" }
     ],
-    tip: "Serve Alcaraz: pronation saat contact menghasilkan kick serve-nya. Latih toss sedikit ke kiri (untuk righty) dan brushing up-out pada bola.",
+    tip: "Serve Alcaraz: pronation saat contact menghasilkan kick serve-nya. Latih toss sedikit ke kiri (untuk righty).",
     gym_intensity: 70, tennis_intensity: 75
   },
   {
-    day: "Jumat", focus: "Endurance & Baseline Stamina", badge: "badge-amber", emoji: "🔥",
+    day: "Jumat", focus: "Endurance Base", emoji: "🔥",
     gym: [
-      { text: "MyWhoosh Zone 2, 35-45 menit — HR 130-145. Ini membangun aerobic base untuk rally panjang ala Alcaraz", icon: "gym" },
-      { text: "HIIT finisher setelah Zone 2: 6x (20 detik all-out sprint / 40 detik jalan). Simulate 5-set intensity surges.", icon: "gym" },
+      { text: "Zone 2 Cardio, 35-45 menit — HR 130-145. Membangun aerobic base untuk rally panjang", type: "gym" },
+      { text: "HIIT finisher: 6x (20 detik all-out sprint / 40 detik jalan). Simulate 5-set intensity surges.", type: "gym" }
     ],
     tennis: [
-      { text: "Long rally endurance drill — target 20+ shot rally tanpa error, dengan partner atau ball machine. Consistency over power.", icon: "tennis" },
-      { text: "Side-to-side baseline drill — coach alternate feed left-right, kamu recover center setiap pukulan. 10 menit non-stop.", icon: "tennis" },
-      { text: "Alcaraz stamina test: play 3 tiebreaks back to back tanpa break panjang. Ini simulate tight set pressure.", icon: "alc" },
-      { text: "Finish dengan 15 menit shadow footwork — split step, lateral, recovery — sambil jaga HR di Zone 3", icon: "tennis" },
+      { text: "Long rally endurance drill — target 20+ shot rally tanpa error. Consistency over power.", type: "tennis" },
+      { text: "Side-to-side baseline drill — 10 menit non-stop.", type: "tennis" },
+      { text: "Alcaraz stamina test: play 3 tiebreaks back to back tanpa break panjang.", type: "alc" },
+      { text: "Finish dengan 15 menit shadow footwork — jaga HR di Zone 3", type: "tennis" }
     ],
-    tip: "Alcaraz bermain dengan intensitas yang sama di poin ke-1 dan poin ke-100. Endurance bukan hanya fisik — latih mental dengan sengaja jaga fokus di rally panjang.",
+    tip: "Alcaraz bermain dengan intensitas yang sama di poin ke-1 dan poin ke-100. Endurance bukan hanya fisik, tapi mental.",
     gym_intensity: 70, tennis_intensity: 80
   },
   {
-    day: "Sabtu", focus: "Tactical & Pressure Play", badge: "badge-green", emoji: "🧠",
+    day: "Sabtu", focus: "Tactics & Pressure", emoji: "🧠",
     gym: [
-      { text: "Mobility circuit 20 menit: hip 90/90, thoracic rotation, ankle dorsiflexion — semua area kritis untuk tennis.", icon: "gym" },
-      { text: "Shadow tennis 10 menit: simulasi movement pattern (split step → lateral sprint → recovery) tanpa bola", icon: "gym" },
+      { text: "Mobility circuit 20 menit: hip 90/90, thoracic rotation, ankle dorsiflexion", type: "gym" },
+      { text: "Shadow tennis 10 menit: simulasi movement pattern tanpa bola", type: "gym" }
     ],
     tennis: [
-      { text: "Return of serve practice — partner serve, fokus early unit turn dan contact di depan tubuh. 30 menit.", icon: "tennis" },
-      { text: "Pressure scenarios: serve at 30-40, approach shot must-make. Alcaraz thrives di pressure points.", icon: "alc" },
-      { text: "Alcaraz drop shot drill: set up dengan 2-3 rally ke sudut, lalu drop shot. Deception > power. Wrist loose saat contact.", icon: "alc" },
-      { text: "Tie-break practice: setiap poin di tiebreak punya weight lebih. Main dengan partner, focus decision making.", icon: "tennis" },
+      { text: "Return of serve practice — fokus early unit turn dan contact di depan tubuh.", type: "tennis" },
+      { text: "Pressure scenarios: serve at 30-40, approach shot must-make.", type: "alc" },
+      { text: "Alcaraz drop shot drill: set up dengan 2-3 rally ke sudut, lalu drop shot.", type: "alc" },
+      { text: "Tie-break practice: setiap poin di tiebreak punya weight lebih.", type: "tennis" }
     ],
-    tip: "Alcaraz punya 'big point mindset' — ia lebih aggressive, bukan lebih defensive, di poin kritis. Latih kebiasaan ini sekarang, sebelum menjadi refleks.",
+    tip: "Alcaraz punya 'big point mindset' — ia lebih aggressive di poin kritis. Latih kebiasaan ini sekarang.",
     gym_intensity: 40, tennis_intensity: 85
   },
   {
-    day: "Minggu", focus: "Active Recovery", badge: "badge-gray", emoji: "😴",
+    day: "Minggu", focus: "Active Recovery", emoji: "😴",
     gym: [
-      { text: "Jalan kaki 30-45 menit outdoor — Zone 1 HR. Mental reset, bukan cardio session.", icon: "gym" },
-      { text: "Light yoga atau stretching 20 menit — fokus hip flexor, hamstring, shoulder capsule", icon: "gym" },
-      { text: "Foam rolling 10 menit — quads, IT band, thoracic spine", icon: "gym" },
+      { text: "Jalan kaki 30-45 menit outdoor — Zone 1 HR. Mental reset.", type: "gym" },
+      { text: "Light yoga atau stretching 20 menit — fokus hip flexor, hamstring", type: "gym" },
+      { text: "Foam rolling 10 menit — quads, IT band, thoracic spine", type: "gym" }
     ],
     tennis: [
-      { text: "Tidak ada tennis hari ini. Otot dan sistem saraf perlu 24-48 jam untuk supercompensasi.", icon: "tennis" },
-      { text: "Opsional: tonton 1 match Alcaraz. Perhatikan footwork sebelum ia memukul, bukan saat ia memukul.", icon: "alc" },
+      { text: "Tidak ada tennis hari ini. Otot dan sistem saraf perlu waktu supercompensasi.", type: "tennis" },
+      { text: "Opsional: tonton 1 match Alcaraz. Perhatikan footwork sebelum memukul.", type: "alc" }
     ],
-    tip: "Recovery bukan kelemahan. Alcaraz memiliki tim yang memastikan ia recover optimal — massage, cold therapy, sleep priority. Tidurmu di 6.5-7 jam sudah bagus, tapi coba targetkan 7.5 jam di hari ini.",
+    tip: "Recovery bukan kelemahan. Alcaraz memiliki tim untuk optimal recovery. Targetkan 7.5 jam tidur hari ini.",
     gym_intensity: 15, tennis_intensity: 0
-  },
+  }
 ];
+
+const getIcon = (type) => {
+  if (type === 'gym') return '🏋️';
+  if (type === 'tennis') return '🎾';
+  return '⚡';
+};
 
 const tabsEl = document.getElementById('tabs');
 const cardsEl = document.getElementById('cards');
 
-// render tabs + cards
-const buildTab = (d, i) => {
+days.forEach((d, i) => {
+  // Create Tabs
   const btn = document.createElement('button');
-  btn.className = 'tab' + (i === 0 ? ' active' : '');
+  btn.className = `tab ${i === 0 ? 'active' : ''}`;
   btn.textContent = d.day;
   btn.onclick = () => {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.card').forEach(c => c.classList.remove('visible'));
     btn.classList.add('active');
-    document.getElementById('card-' + i).classList.add('visible');
+    
+    // Slight delay to re-trigger CSS animation cleanly
+    const targetCard = document.getElementById('card-' + i);
+    targetCard.classList.remove('visible');
+    void targetCard.offsetWidth; // Trigger reflow
+    targetCard.classList.add('visible');
   };
-  return btn;
-};
+  tabsEl.appendChild(btn);
 
-const buildCard = (d, i) => {
-  const gymItems = d.gym.map(g => `<li class="drill-item"><div class="drill-icon ${g.icon}">G</div><span>${g.text}</span></li>`).join('');
-  const tennisItems = d.tennis.map(t => `<li class="drill-item"><div class="drill-icon ${t.icon}">${t.icon === 'alc' ? 'A' : 'T'}</div><span>${t.text}</span></li>`).join('');
-
-  const gymBar = `<div class="bar-fill" style="width:${d.gym_intensity}%;background:#7F77DD"></div>`;
-  const tennisBar = `<div class="bar-fill" style="width:${d.tennis_intensity}%;background:#1D9E75"></div>`;
+  // Create Cards
+  const gymItems = d.gym.map(g => `
+    <li class="drill-item">
+      <div class="drill-icon ${g.type}">${getIcon(g.type)}</div>
+      <span>${g.text}</span>
+    </li>`).join('');
+    
+  const tennisItems = d.tennis.map(t => `
+    <li class="drill-item">
+      <div class="drill-icon ${t.type}">${getIcon(t.type)}</div>
+      <span>${t.text}</span>
+    </li>`).join('');
 
   const card = document.createElement('div');
-  card.className = 'card' + (i === 0 ? ' visible' : '');
+  card.className = `card ${i === 0 ? 'visible' : ''}`;
   card.id = 'card-' + i;
+  
   card.innerHTML = `
-    <div class="day-badge"><span class="badge ${d.badge}">${d.day}</span><span style="font-size:13px;color:var(--color-text-secondary)">${d.emoji} ${d.focus}</span></div>
-    <div class="divider"></div>
-    <div class="section-label">🏋️ Gym / Physical</div>
-    <ul class="drill-list">${gymItems}</ul>
-    <div class="section-label" style="margin-top:1.25rem">🎾 Tennis / Skills</div>
-    <ul class="drill-list">${tennisItems}</ul>
-    <div class="divider"></div>
-    <div class="intensity-row"><span class="intensity-label" style="font-size:12px;color:var(--color-text-tertiary)">Gym load</span><div class="bar-wrap">${gymBar}</div><span style="font-size:12px;color:var(--color-text-secondary);min-width:32px;text-align:right">${d.gym_intensity}%</span></div>
-    <div class="intensity-row"><span class="intensity-label" style="font-size:12px;color:var(--color-text-tertiary)">Tennis load</span><div class="bar-wrap">${tennisBar}</div><span style="font-size:12px;color:var(--color-text-secondary);min-width:32px;text-align:right">${d.tennis_intensity}%</span></div>
-    <div class="tip"><strong>Alcaraz cue:</strong> ${d.tip}</div>
-  `;
-  return card;
-};
+    <div class="day-header">
+      <span class="day-badge">${d.day}</span>
+      <span class="day-focus">${d.emoji} ${d.focus}</span>
+    </div>
 
-days.forEach((d, i) => {
-  tabsEl.appendChild(buildTab(d, i));
-  cardsEl.appendChild(buildCard(d, i));
+    <div class="section-label">Gym & Physical Conditioning</div>
+    <ul class="drill-list">${gymItems}</ul>
+
+    <div class="section-label">On-Court Tennis Skills</div>
+    <ul class="drill-list">${tennisItems}</ul>
+
+    <div class="metrics-box">
+      <div class="intensity-row">
+        <span class="intensity-label">Gym Load</span>
+        <div class="bar-wrap">
+          <div class="bar-fill" style="width: ${d.gym_intensity}%; background: var(--accent-gym);"></div>
+        </div>
+        <span style="font-size:12px; font-weight:600; width: 30px; text-align:right;">${d.gym_intensity}%</span>
+      </div>
+      <div class="intensity-row">
+        <span class="intensity-label">Tennis Load</span>
+        <div class="bar-wrap">
+          <div class="bar-fill" style="width: ${d.tennis_intensity}%; background: var(--accent-tennis);"></div>
+        </div>
+        <span style="font-size:12px; font-weight:600; width: 30px; text-align:right;">${d.tennis_intensity}%</span>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <div style="font-size: 18px">💡</div>
+      <p><strong>Pro Tip:</strong> ${d.tip}</p>
+    </div>
+  `;
+  cardsEl.appendChild(card);
 });
 </script>
+
+</body>
+</html>
