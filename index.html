@@ -1,40 +1,306 @@
 
 <style>
-  :root { --gap: 12px; }
-  .wrap { padding: 1rem 0; }
-  .header { margin-bottom: 1.5rem; }
-  .header h2 { font-size: 18px; font-weight: 500; margin: 0 0 4px; color: var(--color-text-primary); }
-  .header p { font-size: 13px; color: var(--color-text-secondary); margin: 0; }
-  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
-  .tab { padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); font-size: 13px; cursor: pointer; background: transparent; color: var(--color-text-secondary); transition: all .15s; }
-  .tab.active { background: var(--color-background-secondary); border-color: var(--color-border-primary); color: var(--color-text-primary); font-weight: 500; }
-  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; display: none; }
-  .card.visible { display: block; }
-  .day-badge { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; }
-  .badge { display: inline-block; padding: 3px 10px; border-radius: var(--border-radius-md); font-size: 12px; font-weight: 500; }
-  .badge-teal { background: #E1F5EE; color: #085041; }
-  .badge-coral { background: #FAECE7; color: #712B13; }
-  .badge-amber { background: #FAEEDA; color: #633806; }
-  .badge-purple { background: #EEEDFE; color: #3C3489; }
-  .badge-blue { background: #E6F1FB; color: #0C447C; }
-  .badge-gray { background: #F1EFE8; color: #444441; }
-  .badge-green { background: #EAF3DE; color: #27500A; }
-  .day-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
-  .day-sub { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 1rem; }
-  .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-tertiary); margin: 1rem 0 6px; }
-  .drill-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
-  .drill-item { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: var(--color-text-primary); background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 8px 10px; }
-  .drill-icon { width: 18px; height: 18px; min-width: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; margin-top: 1px; }
-  .drill-icon.gym { background: #EEEDFE; color: #3C3489; }
-  .drill-icon.tennis { background: #E1F5EE; color: #085041; }
-  .drill-icon.alc { background: #FAEEDA; color: #633806; }
-  .tip { margin-top: 1rem; padding: 8px 12px; border-left: 2px solid #1D9E75; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: #E1F5EE; font-size: 12px; color: #085041; line-height: 1.6; }
-  .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 12px 0; }
-  .intensity-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
-  .intensity-label { font-size: 12px; color: var(--color-text-secondary); min-width: 60px; }
-  .bar-wrap { flex: 1; height: 5px; background: var(--color-background-tertiary); border-radius: 3px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 3px; }
+  :root {
+    --gap: 12px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 14px;
+
+    /* Light theme */
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f7f7f7;
+    --color-background-tertiary: #e5e7eb;
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --color-text-tertiary: #94a3b8;
+    --color-border-primary: rgba(148, 163, 184, 0.5);
+    --color-border-tertiary: rgba(148, 163, 184, 0.3);
+    --shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  }
+
+  :root.dark,
+  :root[data-theme="dark"] {
+    --color-background-primary: #070b14;
+    --color-background-secondary: #0f172a;
+    --color-background-tertiary: #1e293b;
+    --color-text-primary: #e2e8f0;
+    --color-text-secondary: #94a3b8;
+    --color-text-tertiary: #64748b;
+    --color-border-primary: rgba(148, 163, 184, 0.3);
+    --color-border-tertiary: rgba(148, 163, 184, 0.2);
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+  }
+
+  body {
+    min-height: 100vh;
+  }
+
+  .wrap {
+    padding: 1rem 0;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 2.5rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .header h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: var(--color-text-primary);
+  }
+
+  .header p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .theme-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid var(--color-border-tertiary);
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .theme-toggle:hover {
+    background: var(--color-background-tertiary);
+  }
+
+  .theme-toggle:focus {
+    outline: 2px solid rgba(59, 130, 246, 0.6);
+    outline-offset: 2px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .tab {
+    padding: 6px 14px;
+    border-radius: var(--border-radius-md);
+    border: 0.5px solid var(--color-border-tertiary);
+    font-size: 13px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--color-text-secondary);
+    transition: all 0.15s;
+  }
+
+  .tab.active {
+    background: var(--color-background-secondary);
+    border-color: var(--color-border-primary);
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  .card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.25rem;
+    display: none;
+    box-shadow: var(--shadow);
+  }
+
+  .card.visible {
+    display: block;
+  }
+
+  .day-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: var(--border-radius-md);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .badge-teal {
+    background: #E1F5EE;
+    color: #085041;
+  }
+
+  .badge-coral {
+    background: #FAECE7;
+    color: #712B13;
+  }
+
+  .badge-amber {
+    background: #FAEEDA;
+    color: #633806;
+  }
+
+  .badge-purple {
+    background: #EEEDFE;
+    color: #3C3489;
+  }
+
+  .badge-blue {
+    background: #E6F1FB;
+    color: #0C447C;
+  }
+
+  .badge-gray {
+    background: #F1EFE8;
+    color: #444441;
+  }
+
+  .badge-green {
+    background: #EAF3DE;
+    color: #27500A;
+  }
+
+  .day-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 0 0 4px;
+  }
+
+  .day-sub {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin: 0 0 1rem;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-tertiary);
+    margin: 1rem 0 6px;
+  }
+
+  .drill-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .drill-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 8px 10px;
+  }
+
+  .drill-icon {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 1px;
+  }
+
+  .drill-icon.gym {
+    background: #EEEDFE;
+    color: #3C3489;
+  }
+
+  .drill-icon.tennis {
+    background: #E1F5EE;
+    color: #085041;
+  }
+
+  .drill-icon.alc {
+    background: #FAEEDA;
+    color: #633806;
+  }
+
+  .tip {
+    margin-top: 1rem;
+    padding: 8px 12px;
+    border-left: 2px solid #1D9E75;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    background: #E1F5EE;
+    font-size: 12px;
+    color: #085041;
+    line-height: 1.6;
+  }
+
+  .divider {
+    height: 0.5px;
+    background: var(--color-border-tertiary);
+    margin: 12px 0;
+  }
+
+  .intensity-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .intensity-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    min-width: 60px;
+  }
+
+  .bar-wrap {
+    flex: 1;
+    height: 5px;
+    background: var(--color-background-tertiary);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
 </style>
+
+<button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+
 <div class="wrap">
   <div class="header">
     <h2>Weekly training plan — Alcaraz style</h2>
@@ -43,7 +309,41 @@
   <div class="tabs" id="tabs"></div>
   <div id="cards"></div>
 </div>
+
 <script>
+const themeToggle = document.getElementById('theme-toggle');
+
+function getPreferredTheme() {
+  const stored = localStorage.getItem('theme');
+  if (stored === 'dark' || stored === 'light') return stored;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+  document.documentElement.classList.toggle('dark', theme === 'dark');
+  themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+  themeToggle.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+}
+
+function setTheme(theme) {
+  localStorage.setItem('theme', theme);
+  applyTheme(theme);
+}
+
+themeToggle.addEventListener('click', () => {
+  const next = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+  setTheme(next);
+});
+
+const initialTheme = getPreferredTheme();
+applyTheme(initialTheme);
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+  if (!localStorage.getItem('theme')) {
+    applyTheme(event.matches ? 'dark' : 'light');
+  }
+});
+
 const days = [
   {
     day: "Senin", focus: "Lower Body Power", badge: "badge-teal", emoji: "⚡",
@@ -123,7 +423,7 @@ const days = [
       { text: "Alcaraz stamina test: play 3 tiebreaks back to back tanpa break panjang. Ini simulate tight set pressure.", icon: "alc" },
       { text: "Finish dengan 15 menit shadow footwork — split step, lateral, recovery — sambil jaga HR di Zone 3", icon: "tennis" },
     ],
-    tip: "Alcaraz bermain dengan intensitas yang sama di poin ke-1 dan poin ke-100. Endurance bukan hanya fisik — latih mental dengan sengaja jaga focus di rally panjang.",
+    tip: "Alcaraz bermain dengan intensitas yang sama di poin ke-1 dan poin ke-100. Endurance bukan hanya fisik — latih mental dengan sengaja jaga fokus di rally panjang.",
     gym_intensity: 70, tennis_intensity: 80
   },
   {
@@ -160,7 +460,8 @@ const days = [
 const tabsEl = document.getElementById('tabs');
 const cardsEl = document.getElementById('cards');
 
-days.forEach((d, i) => {
+// render tabs + cards
+const buildTab = (d, i) => {
   const btn = document.createElement('button');
   btn.className = 'tab' + (i === 0 ? ' active' : '');
   btn.textContent = d.day;
@@ -170,8 +471,10 @@ days.forEach((d, i) => {
     btn.classList.add('active');
     document.getElementById('card-' + i).classList.add('visible');
   };
-  tabsEl.appendChild(btn);
+  return btn;
+};
 
+const buildCard = (d, i) => {
   const gymItems = d.gym.map(g => `<li class="drill-item"><div class="drill-icon ${g.icon}">G</div><span>${g.text}</span></li>`).join('');
   const tennisItems = d.tennis.map(t => `<li class="drill-item"><div class="drill-icon ${t.icon}">${t.icon === 'alc' ? 'A' : 'T'}</div><span>${t.text}</span></li>`).join('');
 
@@ -193,6 +496,11 @@ days.forEach((d, i) => {
     <div class="intensity-row"><span class="intensity-label" style="font-size:12px;color:var(--color-text-tertiary)">Tennis load</span><div class="bar-wrap">${tennisBar}</div><span style="font-size:12px;color:var(--color-text-secondary);min-width:32px;text-align:right">${d.tennis_intensity}%</span></div>
     <div class="tip"><strong>Alcaraz cue:</strong> ${d.tip}</div>
   `;
-  cardsEl.appendChild(card);
+  return card;
+};
+
+days.forEach((d, i) => {
+  tabsEl.appendChild(buildTab(d, i));
+  cardsEl.appendChild(buildCard(d, i));
 });
 </script>
