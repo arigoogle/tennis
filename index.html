@@ -334,7 +334,21 @@ applyTheme(getPreferredTheme());
 // Data Processing
 const days = [
   {
-    day: "Senin", focus: "Lower Body Power", emoji: "⚡",
+    day: "Senin", focus: "Active Recovery", emoji: "😴",
+    gym: [
+      { text: "Jalan kaki 30-45 menit outdoor — Zone 1 HR. Mental reset.", type: "gym" },
+      { text: "Light yoga atau stretching 20 menit — fokus hip flexor, hamstring", type: "gym" },
+      { text: "Foam rolling 10 menit — quads, IT band, thoracic spine", type: "gym" }
+    ],
+    tennis: [
+      { text: "Tidak ada tennis hari ini. Otot dan sistem saraf perlu waktu supercompensasi.", type: "tennis" },
+      { text: "Opsional: tonton 1 match Alcaraz. Perhatikan footwork sebelum memukul.", type: "alc" }
+    ],
+    tip: "Recovery bukan kelemahan. Alcaraz memiliki tim untuk optimal recovery. Targetkan 7.5 jam tidur hari ini.",
+    gym_intensity: 15, tennis_intensity: 0
+  },
+  {
+    day: "Selasa", focus: "Lower Body Power", emoji: "⚡",
     gym: [
       { text: "Explosive squat jump 4x8 — fokus dorong dari tumit, pendaratan soft (transferable ke first-step tennis)", type: "gym" },
       { text: "Bulgarian split squat 3x10/side — latih split-step landing ala Alcaraz saat bergerak lateral", type: "gym" },
@@ -351,7 +365,7 @@ const days = [
     gym_intensity: 80, tennis_intensity: 65
   },
   {
-    day: "Selasa", focus: "Core & Rotation", emoji: "🔄",
+    day: "Rabu", focus: "Core & Rotation", emoji: "🔄",
     gym: [
       { text: "Med ball rotational throw 4x8/side — ini adalah sumber 'venom' dari FH Alcaraz. Eksplosi pinggul dulu, bahu ikut.", type: "gym" },
       { text: "Cable/band wood-chop diagonal 3x12 — simulasi swing plane forehand dan backhand", type: "gym" },
@@ -368,7 +382,7 @@ const days = [
     gym_intensity: 75, tennis_intensity: 70
   },
   {
-    day: "Rabu", focus: "Reaction & Match", emoji: "🎾",
+    day: "Kamis", focus: "Reaction & Match", emoji: "🎾",
     gym: [
       { text: "Ball-drop reaction drill 3x10 — partner drop bola dari pinggang, kamu sprint dan tangkap sebelum bounce ke-2", type: "gym" },
       { text: "Cone T-drill 4x — agility benchmark, ukur waktu tiap minggu", type: "gym" },
@@ -383,7 +397,7 @@ const days = [
     gym_intensity: 50, tennis_intensity: 90
   },
   {
-    day: "Kamis", focus: "Upper Body & Serve", emoji: "🏋️",
+    day: "Jumat", focus: "Upper Body & Serve", emoji: "🏋️",
     gym: [
       { text: "Resistance band internal/external rotation 3x15 — 'shoulder prehab' wajib untuk pemain yang serve keras", type: "gym" },
       { text: "Pull-up 3x max atau lat pulldown 3x10 — lat engagement penting untuk serve power", type: "gym" },
@@ -400,7 +414,7 @@ const days = [
     gym_intensity: 70, tennis_intensity: 75
   },
   {
-    day: "Jumat", focus: "Endurance Base", emoji: "🔥",
+    day: "Sabtu", focus: "Endurance Base", emoji: "🔥",
     gym: [
       { text: "Zone 2 Cardio, 35-45 menit — HR 130-145. Membangun aerobic base untuk rally panjang", type: "gym" },
       { text: "HIIT finisher: 6x (20 detik all-out sprint / 40 detik jalan). Simulate 5-set intensity surges.", type: "gym" }
@@ -415,7 +429,7 @@ const days = [
     gym_intensity: 70, tennis_intensity: 80
   },
   {
-    day: "Sabtu", focus: "Tactics & Pressure", emoji: "🧠",
+    day: "Minggu", focus: "Tactics & Pressure", emoji: "🧠",
     gym: [
       { text: "Mobility circuit 20 menit: hip 90/90, thoracic rotation, ankle dorsiflexion", type: "gym" },
       { text: "Shadow tennis 10 menit: simulasi movement pattern tanpa bola", type: "gym" }
@@ -428,20 +442,6 @@ const days = [
     ],
     tip: "Alcaraz punya 'big point mindset' — ia lebih aggressive di poin kritis. Latih kebiasaan ini sekarang.",
     gym_intensity: 40, tennis_intensity: 85
-  },
-  {
-    day: "Minggu", focus: "Active Recovery", emoji: "😴",
-    gym: [
-      { text: "Jalan kaki 30-45 menit outdoor — Zone 1 HR. Mental reset.", type: "gym" },
-      { text: "Light yoga atau stretching 20 menit — fokus hip flexor, hamstring", type: "gym" },
-      { text: "Foam rolling 10 menit — quads, IT band, thoracic spine", type: "gym" }
-    ],
-    tennis: [
-      { text: "Tidak ada tennis hari ini. Otot dan sistem saraf perlu waktu supercompensasi.", type: "tennis" },
-      { text: "Opsional: tonton 1 match Alcaraz. Perhatikan footwork sebelum memukul.", type: "alc" }
-    ],
-    tip: "Recovery bukan kelemahan. Alcaraz memiliki tim untuk optimal recovery. Targetkan 7.5 jam tidur hari ini.",
-    gym_intensity: 15, tennis_intensity: 0
   }
 ];
 
