@@ -22,7 +22,7 @@
     --text-faint: #94a3b8;
     --border-light: rgba(15, 23, 42, 0.08);
     --shadow-card: 0 10px 30px -5px rgba(15, 23, 42, 0.05), 0 4px 6px -4px rgba(15, 23, 42, 0.02);
-    
+
     /* Accent Colors */
     --accent-primary: #0ea5e9;
     --accent-tennis: #10b981;
@@ -112,10 +112,10 @@
     display: flex;
     overflow-x: auto;
     margin-bottom: 1.5rem;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
-  
-  .tabs-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+  .tabs-container::-webkit-scrollbar { display: none; }
 
   .tab {
     flex: 1;
@@ -129,6 +129,7 @@
     background: transparent;
     color: var(--text-muted);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
   }
 
   .tab.active {
@@ -136,6 +137,19 @@
     color: var(--text-main);
     box-shadow: 0 2px 4px rgba(0,0,0,0.06), 0 0 0 1px var(--border-light);
   }
+
+  /* Dot indicator on tab for partial/full completion */
+  .tab-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+    margin-top: -2px;
+  }
+  .tab-dot.partial { background: #f59e0b; }
+  .tab-dot.done { background: #10b981; }
 
   /* Card Styles */
   .card {
@@ -181,6 +195,13 @@
     color: var(--text-muted);
   }
 
+  .day-progress-label {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-tennis);
+  }
+
   .section-label {
     font-size: 12px;
     font-weight: 700;
@@ -203,18 +224,43 @@
   .drill-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
     padding: 0;
     margin: 0;
     list-style: none;
   }
 
+  /* Drill item — now clickable */
   .drill-item {
     display: flex;
     gap: 14px;
     align-items: flex-start;
     font-size: 14px;
     line-height: 1.6;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid transparent;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    user-select: none;
+  }
+
+  .drill-item:hover {
+    background: var(--bg-element);
+  }
+
+  .drill-item.done {
+    opacity: 0.55;
+  }
+
+  .drill-item.done .drill-text {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+
+  .drill-item.done .drill-icon {
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #10b981 !important;
   }
 
   .drill-icon {
@@ -227,9 +273,9 @@
     justify-content: center;
     font-size: 14px;
     background: var(--bg-element);
+    transition: background 0.2s, color 0.2s;
   }
 
-  /* Specific icon backgrounds */
   .drill-icon.gym { background: rgba(99, 102, 241, 0.15); color: #6366f1; }
   .drill-icon.tennis { background: rgba(16, 185, 129, 0.15); color: #10b981; }
   .drill-icon.alc { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
@@ -247,7 +293,7 @@
     align-items: center;
     gap: 12px;
   }
-  
+
   .intensity-row:not(:last-child) { margin-bottom: 12px; }
 
   .intensity-label {
@@ -291,6 +337,121 @@
     color: var(--text-main);
   }
 
+  /* ===================== SUMMARY CARD ===================== */
+  .summary-big {
+    text-align: center;
+    padding: 1.5rem 0 1rem;
+  }
+
+  .summary-ring-wrap {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 12px;
+  }
+
+  .summary-ring-wrap svg {
+    transform: rotate(-90deg);
+  }
+
+  .summary-ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .summary-ring-pct {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1;
+  }
+
+  .summary-ring-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .summary-week-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .summary-days {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 1.5rem;
+  }
+
+  .summary-day-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .summary-day-name {
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 64px;
+    color: var(--text-main);
+  }
+
+  .summary-day-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-element);
+    border-radius: var(--border-radius-pill);
+    overflow: hidden;
+  }
+
+  .summary-day-bar-fill {
+    height: 100%;
+    border-radius: var(--border-radius-pill);
+    background: var(--accent-tennis);
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .summary-day-pct {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  .summary-day-count {
+    font-size: 11px;
+    color: var(--text-faint);
+    min-width: 44px;
+    text-align: right;
+  }
+
+  .reset-btn {
+    margin-top: 1.75rem;
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-light);
+    background: var(--bg-element);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .reset-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.2);
+  }
 </style>
 </head>
 <body>
@@ -303,13 +464,13 @@
     </div>
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
   </div>
-  
+
   <div class="tabs-container" id="tabs"></div>
   <div id="cards"></div>
 </div>
 
 <script>
-// Theme Logic
+// ── Theme ──────────────────────────────────────────────────
 const themeToggle = document.getElementById('theme-toggle');
 
 function getPreferredTheme() {
@@ -331,7 +492,32 @@ themeToggle.addEventListener('click', () => {
 
 applyTheme(getPreferredTheme());
 
-// Data Processing
+// ── Progress Storage ───────────────────────────────────────
+function getWeekKey() {
+  const now = new Date();
+  const d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return `progress_${d.getUTCFullYear()}-W${String(week).padStart(2, '0')}`;
+}
+
+const WEEK_KEY = getWeekKey();
+
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(WEEK_KEY) || '{}'); } catch { return {}; }
+}
+
+function saveProgress(p) {
+  localStorage.setItem(WEEK_KEY, JSON.stringify(p));
+}
+
+function itemKey(dayIdx, section, itemIdx) {
+  return `${dayIdx}-${section}-${itemIdx}`;
+}
+
+// ── Data ───────────────────────────────────────────────────
 const days = [
   {
     day: "Senin", focus: "Active Recovery", emoji: "😴",
@@ -445,61 +631,220 @@ const days = [
   }
 ];
 
-const getIcon = (type) => {
+const getIcon = (type, done) => {
+  if (done) return '✓';
   if (type === 'gym') return '🏋️';
   if (type === 'tennis') return '🎾';
   return '⚡';
 };
 
+// ── Helpers ────────────────────────────────────────────────
+function getDayStats(dayIdx, progress) {
+  const d = days[dayIdx];
+  const total = d.gym.length + d.tennis.length;
+  let done = 0;
+  d.gym.forEach((_, i) => { if (progress[itemKey(dayIdx, 'gym', i)]) done++; });
+  d.tennis.forEach((_, i) => { if (progress[itemKey(dayIdx, 'tennis', i)]) done++; });
+  return { done, total, pct: total ? Math.round((done / total) * 100) : 0 };
+}
+
+function getWeekStats(progress) {
+  let total = 0, done = 0;
+  days.forEach((_, i) => {
+    const s = getDayStats(i, progress);
+    total += s.total;
+    done += s.done;
+  });
+  return { done, total, pct: total ? Math.round((done / total) * 100) : 0 };
+}
+
+// ── Rendering ──────────────────────────────────────────────
 const tabsEl = document.getElementById('tabs');
 const cardsEl = document.getElementById('cards');
 
+// Track tab buttons for dot updates
+const tabBtns = [];
+
+function renderDrillItem(dayIdx, section, itemIdx, item, progress) {
+  const key = itemKey(dayIdx, section, itemIdx);
+  const done = !!progress[key];
+  const li = document.createElement('li');
+  li.className = `drill-item${done ? ' done' : ''}`;
+  li.dataset.key = key;
+  li.innerHTML = `
+    <div class="drill-icon ${done ? '' : item.type}">${getIcon(item.type, done)}</div>
+    <span class="drill-text">${item.text}</span>
+  `;
+  li.addEventListener('click', () => {
+    const p = loadProgress();
+    p[key] = !p[key];
+    saveProgress(p);
+    // update this item
+    li.classList.toggle('done', !!p[key]);
+    li.querySelector('.drill-icon').className = `drill-icon${p[key] ? '' : ' ' + item.type}`;
+    li.querySelector('.drill-icon').textContent = getIcon(item.type, !!p[key]);
+    // update day header progress label
+    updateDayProgressLabel(dayIdx, p);
+    // update tab dot
+    updateTabDot(dayIdx, p);
+    // if summary visible, re-render it
+    if (document.getElementById('card-summary').classList.contains('visible')) {
+      renderSummaryContent(p);
+    }
+  });
+  return li;
+}
+
+function updateDayProgressLabel(dayIdx, progress) {
+  const el = document.getElementById(`day-progress-${dayIdx}`);
+  if (!el) return;
+  const { done, total, pct } = getDayStats(dayIdx, progress);
+  el.textContent = done === total ? `${pct}% selesai` : `${done}/${total} selesai`;
+  el.style.color = done === total ? 'var(--accent-tennis)' : 'var(--text-muted)';
+}
+
+function updateTabDot(dayIdx, progress) {
+  const btn = tabBtns[dayIdx];
+  if (!btn) return;
+  const { done, total } = getDayStats(dayIdx, progress);
+  let dot = btn.querySelector('.tab-dot');
+  if (done === 0) {
+    if (dot) dot.remove();
+    return;
+  }
+  if (!dot) {
+    dot = document.createElement('span');
+    dot.className = 'tab-dot';
+    btn.appendChild(dot);
+  }
+  dot.className = `tab-dot ${done === total ? 'done' : 'partial'}`;
+}
+
+function renderSummaryContent(progress) {
+  const summaryCard = document.getElementById('card-summary');
+  const week = getWeekStats(progress);
+
+  // week label (ISO week)
+  const now = new Date();
+  const weekLabel = `Minggu ini · ${now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}`;
+
+  // ring circle params
+  const r = 38, circ = 2 * Math.PI * r;
+  const dash = ((week.pct / 100) * circ).toFixed(1);
+
+  const daysHTML = days.map((d, i) => {
+    const s = getDayStats(i, progress);
+    return `
+      <div class="summary-day-row">
+        <span class="summary-day-name">${d.day}</span>
+        <div class="summary-day-bar-wrap">
+          <div class="summary-day-bar-fill" style="width:${s.pct}%; background:${s.pct===100 ? 'var(--accent-tennis)' : s.pct > 0 ? '#f59e0b' : 'var(--bg-element)'};"></div>
+        </div>
+        <span class="summary-day-count">${s.done}/${s.total}</span>
+        <span class="summary-day-pct" style="color:${s.pct===100 ? 'var(--accent-tennis)' : s.pct>0 ? '#f59e0b' : 'var(--text-faint)'}">${s.pct}%</span>
+      </div>`;
+  }).join('');
+
+  summaryCard.innerHTML = `
+    <div class="day-header">
+      <span class="day-badge">Ringkasan</span>
+      <span class="day-focus">📊 Progres Minggu Ini</span>
+    </div>
+
+    <div class="summary-big">
+      <div class="summary-ring-wrap">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="${r}" fill="none" stroke="var(--bg-element)" stroke-width="10"/>
+          <circle cx="50" cy="50" r="${r}" fill="none"
+            stroke="${week.pct === 100 ? '#10b981' : week.pct > 0 ? '#f59e0b' : 'var(--text-faint)'}"
+            stroke-width="10"
+            stroke-dasharray="${dash} ${circ}"
+            stroke-linecap="round"/>
+        </svg>
+        <div class="summary-ring-text">
+          <span class="summary-ring-pct">${week.pct}%</span>
+          <span class="summary-ring-label">SELESAI</span>
+        </div>
+      </div>
+      <div class="summary-week-label">${weekLabel} · ${week.done}/${week.total} latihan</div>
+    </div>
+
+    <div class="section-label">Progres Per Hari</div>
+    <div class="summary-days">${daysHTML}</div>
+
+    <button class="reset-btn" id="reset-btn">Reset minggu ini</button>
+  `;
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    if (confirm('Reset semua progres minggu ini?')) {
+      saveProgress({});
+      // Re-render all drill items
+      rebuildAllCards();
+      renderSummaryContent(loadProgress());
+    }
+  });
+}
+
+function rebuildAllCards() {
+  const progress = loadProgress();
+  days.forEach((d, i) => {
+    // rebuild gym list
+    const gymList = document.getElementById(`gym-list-${i}`);
+    gymList.innerHTML = '';
+    d.gym.forEach((item, j) => gymList.appendChild(renderDrillItem(i, 'gym', j, item, progress)));
+    // rebuild tennis list
+    const tennisList = document.getElementById(`tennis-list-${i}`);
+    tennisList.innerHTML = '';
+    d.tennis.forEach((item, j) => tennisList.appendChild(renderDrillItem(i, 'tennis', j, item, progress)));
+    updateDayProgressLabel(i, progress);
+    updateTabDot(i, progress);
+  });
+}
+
+// ── Build UI ───────────────────────────────────────────────
+function showCard(id, tabBtn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('visible'));
+  tabBtn.classList.add('active');
+  const target = document.getElementById(id);
+  target.classList.remove('visible');
+  void target.offsetWidth;
+  target.classList.add('visible');
+}
+
+const progress = loadProgress();
+
 days.forEach((d, i) => {
-  // Create Tabs
+  // Tab button
   const btn = document.createElement('button');
   btn.className = `tab ${i === 0 ? 'active' : ''}`;
   btn.textContent = d.day;
-  btn.onclick = () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.card').forEach(c => c.classList.remove('visible'));
-    btn.classList.add('active');
-    
-    // Slight delay to re-trigger CSS animation cleanly
-    const targetCard = document.getElementById('card-' + i);
-    targetCard.classList.remove('visible');
-    void targetCard.offsetWidth; // Trigger reflow
-    targetCard.classList.add('visible');
-  };
+  btn.onclick = () => showCard('card-' + i, btn);
   tabsEl.appendChild(btn);
+  tabBtns[i] = btn;
+  updateTabDot(i, progress);
 
-  // Create Cards
-  const gymItems = d.gym.map(g => `
-    <li class="drill-item">
-      <div class="drill-icon ${g.type}">${getIcon(g.type)}</div>
-      <span>${g.text}</span>
-    </li>`).join('');
-    
-  const tennisItems = d.tennis.map(t => `
-    <li class="drill-item">
-      <div class="drill-icon ${t.type}">${getIcon(t.type)}</div>
-      <span>${t.text}</span>
-    </li>`).join('');
-
+  // Card
   const card = document.createElement('div');
   card.className = `card ${i === 0 ? 'visible' : ''}`;
   card.id = 'card-' + i;
-  
+
+  const { done, total, pct } = getDayStats(i, progress);
+
   card.innerHTML = `
     <div class="day-header">
       <span class="day-badge">${d.day}</span>
       <span class="day-focus">${d.emoji} ${d.focus}</span>
+      <span class="day-progress-label" id="day-progress-${i}" style="color:${pct===100?'var(--accent-tennis)':'var(--text-muted)'}">
+        ${done === total ? pct + '% selesai' : done + '/' + total + ' selesai'}
+      </span>
     </div>
 
     <div class="section-label">Gym & Physical Conditioning</div>
-    <ul class="drill-list">${gymItems}</ul>
+    <ul class="drill-list" id="gym-list-${i}"></ul>
 
     <div class="section-label">On-Court Tennis Skills</div>
-    <ul class="drill-list">${tennisItems}</ul>
+    <ul class="drill-list" id="tennis-list-${i}"></ul>
 
     <div class="metrics-box">
       <div class="intensity-row">
@@ -524,7 +869,31 @@ days.forEach((d, i) => {
     </div>
   `;
   cardsEl.appendChild(card);
+
+  // Populate drill items
+  d.gym.forEach((item, j) => {
+    document.getElementById(`gym-list-${i}`).appendChild(renderDrillItem(i, 'gym', j, item, progress));
+  });
+  d.tennis.forEach((item, j) => {
+    document.getElementById(`tennis-list-${i}`).appendChild(renderDrillItem(i, 'tennis', j, item, progress));
+  });
 });
+
+// Summary tab
+const summaryBtn = document.createElement('button');
+summaryBtn.className = 'tab';
+summaryBtn.textContent = '📊';
+summaryBtn.title = 'Ringkasan Minggu';
+summaryBtn.onclick = () => {
+  showCard('card-summary', summaryBtn);
+  renderSummaryContent(loadProgress());
+};
+tabsEl.appendChild(summaryBtn);
+
+const summaryCard = document.createElement('div');
+summaryCard.className = 'card';
+summaryCard.id = 'card-summary';
+cardsEl.appendChild(summaryCard);
 </script>
 
 </body>
